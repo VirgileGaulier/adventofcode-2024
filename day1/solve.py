@@ -17,4 +17,12 @@ for list_1_value in list_1:
     i += 1
     total_distance+= distance
 
-print(total_distance)
+print("total_distance : ",total_distance)
+
+similarity_score = 0
+for list_1_value in list_1:
+  for list_2_value in list_2:
+    if list_1_value == list_2_value:
+      similarity_score += list_1_value
+
+print("similarity_score : ",similarity_score)
