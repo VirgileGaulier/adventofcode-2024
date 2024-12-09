@@ -1,4 +1,4 @@
-input_file = open("example.txt", "r")
+input_file = open("input.txt", "r")
 
 matrix = []
 for line in input_file:
@@ -36,46 +36,50 @@ print("guard_first_position", guard_first_position)
 
 
 def isGuardInRange(x, y, d, matrix):
-  if x == 0 and d == 'N':
+  if x <= 0 and d == 'W':
     return False
-  if x == len(matrix) and d == 'S':
+  if x >= (len(matrix)-1) and d == 'E':
     return False
-  if y == 0 and d == 'W':
+  if y <= 0 and d == 'N':
     return False
-  if y == len(matrix) and d == 'E':
+  if y >= (len(matrix)-1) and d == 'S':
     return False
   return True
 
 q_x = guard_position[0]
 q_y = guard_position[1]
 q_d = guard_position[2]
-result =0
+visited = {str(q_x)+"-"+str(q_y) : True}
+has_moved = False
 
 while(isGuardInRange(q_x, q_y, q_d, matrix)):
   if q_d == 'N':
-    if not isGuardInRange(q_x, q_y-1, q_d, matrix) :break
     if matrix[q_y-1][q_x] == '#':
       q_d = 'E'
     else:
       q_y -=1
+      has_moved = True
   elif q_d == 'E':
-    if not isGuardInRange(q_x+1, q_y, q_d, matrix) :break
     if matrix[q_y][q_x+1] == '#':
       q_d = 'S'
     else:
       q_x +=1
+      has_moved = True
   elif q_d == 'S':
-    if not isGuardInRange(q_x, q_y+1, q_d, matrix) :break
     if matrix[q_y+1][q_x] == '#':
       q_d = 'W'
     else:
       q_y +=1
+      has_moved = True
   elif q_d == 'W':
-    if not isGuardInRange(q_x-1, q_y, q_d, matrix) :break
     if matrix[q_y][q_x-1] == '#':
       q_d = 'N'
     else:
       q_x -=1
-  result+=1
+      has_moved = True
 
-print('result:',result,' expecting 41')
+  if has_moved :
+    visited[str(q_x)+"-"+str(q_y)] = True
+    has_moved = False
+
+print('result:',len(visited),' expecting 5208')
